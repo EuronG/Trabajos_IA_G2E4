@@ -77,31 +77,28 @@
 	15. CapacidadEndeudamiento
 
 ### Propiedades
-| 1   | Propiedad                   | Dominio            | Rango                                     | Comentario                                                           |
-| --- | --------------------------- | ------------------ | ----------------------------------------- | -------------------------------------------------------------------- |
-| 2   | `foaf:name`                 | Persona            | `xsd:string`                              | Usa FOAF para el nombre de la persona.                               |
-| 3   | `ex:anioNacimiento`         | Persona            | `xsd:gYear`                               | Año de nacimiento.                                                   |
-| 4   | `ex:tieneIngreso`           | Persona            | Ingreso                                   | Relaciona a una persona con su ingreso (objeto).                     |
-| 5   | `ex:tipoIngreso`            | Ingreso            | `xsd:string`                              | Fijo, variable (puede redundar pero útil para lógica difusa).        |
-| 6   | `ex:montoIngreso`           | Ingreso            | `xsd:decimal`                             | Cuánto gana la persona.                                              |
-|     | ~~`ex:solicitaCredito`~~    | ~~Persona~~        | ~~Credito~~                               | ~~Indica qué crédito ha solicitado.~~                                |
-| 7   | `ex:TieneCredito`           | Persona            | Credito                                   | Indica los créditos que actualmente tiene activos.                   |
-| 8   | `ex:monto`                  | Credito            | `xsd:decimal`                             | Monto del crédito.                                                   |
-| 9   | ` ↳ ex:montoSolicitado`     | *Credito*          | *`xsd:decimal`*                           | Subpropiedad de `ex:monto`: monto solicitado.                        |
-| 10  | ` ↳ ex:montoAprobado`       | *Credito*          | *`xsd:decimal`*                           | Subpropiedad de `ex:monto`: monto aprobado.                          |
-| 11  | `ex:plazo`                  | Credito            | `xsd:integer`                             | Plazo en meses o años.                                               |
-|     | ~~`ex:tipoCredito`~~        | ~~Credito~~        | ~~Credito~~                               | ~~Apunta a una subclase (LibreInversion, Hipotecario, etc.).~~       |
-|     | ~~`dc:date`~~               | ~~Credito~~        | ~~`xsd:date`~~                            | ~~Usa Dublin Core para registrar la fecha de la solicitud.~~         |
-| 12  | `ex:tieneHistorial`         | Persona            | Historial                                 | Conecta persona con su historial.                                    |
-| 13  | `ex:puntajeCrediticio`      | Historial          | `xsd:decimal`                             | Escala de 0 a 1000, por ejemplo.                                     |
-| 14  | `ex:capacidadEndeudamiento` | Historial          | `xsd:decimal`                             | Representa el monto máximo calculado.                                |
-| 15  | `ex:estadoCredito`          | Credito            | `xsd:string`                              | Aprobado, Rechazado, Activo, PendienteDeAprobación.                  |
-|     | ~~`ex:tieneGarantia`~~      | ~~Credito~~        | ~~Garantia~~                              | ~~Si aplica, apunta a la garantía ofrecida.~~                        |
-|     | ~~`ex:valorGarantia`~~      | ~~Garantia~~       | ~~`xsd:decimal`~~                         | ~~Valor estimado del bien ofrecido como garantía.~~                  |
-| 18  | `ex:estabilidadLaboral`     | Persona (Empleado) | `xsd:string`                              | Alta, media, baja (útil para lógica difusa).                         |
-|     | ~~`foaf:knows`~~            | ~~Persona~~        | ~~Persona~~                               | ~~Usa FOAF para modelar relaciones personales (amigos, conocidos).~~ |
-|     | ~~`ex:analizadoPor`~~       | ~~Credito~~        | ~~AnalistaCredito (subclase de Persona)~~ | ~~Indica quién analizó la solicitud.~~                               |
-| 19  | `dc:identifier`             | Credito            | `xsd:string`                              | Identificador único del crédito (usa Dublin Core).                   |
-## Preguntas
-## Prompts
-
+|       | Propiedad                   | Dominio            | Rango            | Comentario                                                        |
+| ----- | --------------------------- | ------------------ | ---------------- | ----------------------------------------------------------------- |
+| 1     | `foaf:name`                 | Persona            | `xsd:string`     | Usa FOAF para el nombre de la persona.                            |
+| 2     | `ex:anioNacimiento`         | Persona            | `xsd:gYear`      | Año de nacimiento.                                                |
+| 3     | `ex:tieneIngreso`           | Persona            | Ingreso          | Relaciona a una persona con su ingreso (objeto).                  |
+| ~~4~~ | ~~`ex:tipoIngreso`~~        | ~~Ingreso~~        | ~~`xsd:string`~~ | ~~Fijo, variable (puede redundar pero útil para lógica difusa).~~ |
+| 5     | `ex:montoIngreso`           | Ingreso            | `xsd:decimal`    | Cuánto gana la persona.                                           |
+| 6     | `ex:TieneCredito`           | Persona            | Credito          | Indica los créditos que actualmente tiene activos.                |
+| 7     | `ex:monto`                  | Credito            | `xsd:decimal`    | Monto del crédito.                                                |
+| 8     | ` ↳ ex:montoSolicitado`     | *Credito*          | *`xsd:decimal`*  | Subpropiedad de `ex:monto`: monto solicitado.                     |
+| 9     | ` ↳ ex:montoAprobado`       | *Credito*          | *`xsd:decimal`*  | Subpropiedad de `ex:monto`: monto aprobado.                       |
+| 10    | `ex:plazo`                  | Credito            | `xsd:integer`    | Plazo en meses o años.                                            |
+| 11    | `ex:tieneHistorial`         | Persona            | Historial        | Conecta persona con su historial.                                 |
+| 12    | `ex:puntajeCrediticio`      | Historial          | `xsd:decimal`    | Escala de 0 a 1000, por ejemplo.                                  |
+| 13    | `ex:capacidadEndeudamiento` | Historial          | `xsd:decimal`    | Representa el monto máximo calculado.                             |
+| 14    | `ex:estadoCredito`          | Credito            | `xsd:string`     | Aprobado, Rechazado, Activo, PendienteDeAprobación.               |
+| 15    | `ex:estabilidadLaboral`     | Persona (Empleado) | `xsd:string`     | Alta, media, baja (útil para lógica difusa).                      |
+| 16    | `dc:identifier`             | Credito            | `xsd:string`     | Identificador único del crédito (usa Dublin Core).                |
+### Comparativa de Grafos (Antes vs Después del Razonador)
+la aplicación del razonamiento semántico ha permitido ampliar automáticamente el grafo RDF, generando nuevas afirmaciones que fortalecen la representación del conocimiento.
+La segunda imagen muestra el **grafo después del razonamiento**. En este caso, se han añadido automáticamente nuevas afirmaciones implícitas derivadas de las reglas semánticas. Estas inferencias enriquecen el conocimiento representado en el grafo.
+#### Antes:
+![[graph_before.png]]
+#### Después:
+![[graph_after.png]]
