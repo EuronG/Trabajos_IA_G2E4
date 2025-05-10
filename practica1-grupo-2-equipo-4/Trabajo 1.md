@@ -1,3 +1,62 @@
+## 2. Lógica Difusa (Sci-kit Fuzzy)
+
+### Variables Difusas
+
+1. **Ingreso mensual**
+
+**Universo del discurso:** 0 - 10 (en millones de pesos)
+
+**Valores difusos:**
+
+- **Bajo:** función de pertenencia $trapezoidal(0,0,1.4,2.8)$
+- **Medio:** función de pertenencia $triangular(1.4,3,5.5)$
+- **Alto:** función de pertenencia $gaussiana(\mu=10,\sigma=2.8)$
+
+**Modificadores:**
+
+- *Más o menos alto:* $\sqrt{\mu_{alto}(x)}$
+- *Extremadamente alto:* $[\mu_{alto}(x)]^3$
+
+![ingresos_mensuales.png](images/ingresos_mensuales.png)
+
+---
+
+2. **Estabilidad Laboral**
+
+**Universo del discurso:** 0 - 10 (escala numérica de estabilidad)
+
+**Valores difusos:**
+
+- **Inestable:** función de pertenencia $trapezoidal(0,0,2,4)$
+- **Moderada:** función de pertenencia $triangular(3,5.5,7)$
+- **Estable:** función de pertenencia $gaussiana(\mu=10,\sigma=2.5)$
+
+**Modificadores:**
+
+- *Muy estable:* $[\mu_{estable}(x)]^2$
+- *Más o menos estable:* $\sqrt{\mu_{estable}(x)}$
+
+![estabilidad_laboral.png](images/estabilidad_laboral.png)
+
+---
+
+3. **Puntaje Crediticio**
+
+**Universo del discurso:** 0 - 1000 (escala típica de puntajes crediticios)
+
+**Valores difusos:**
+
+- **Malo:** función de pertenencia $triangular(0,250,450)$
+- **Regular:** función de pertenencia $gaussiana(\mu=500,\sigma=150)$
+- **Bueno:** función de pertenencia $trapezoidal(600,800,1000,1000)$
+
+**Modificadores:**
+
+- *Muy bueno:* $[\mu_{bueno}(x)]^2$
+- *Mas o menos malo:* $\sqrt{\mu_{malo}(x)}$
+
+![puntaje_crediticio.png](images/puntaje_crediticio.png)
+
 ## 3. Ontología y Razonamiento Semántico (RDFLib y OWL-RL)
 ### Clases
 
