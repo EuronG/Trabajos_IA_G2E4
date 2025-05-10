@@ -64,6 +64,8 @@
 
 A continuación, se presentan las reglas definidas para evaluar el riesgo de impago basado en el ingreso mensual, la estabilidad laboral y el puntaje crediticio.
 
+---
+
 ### Reglas Difusas para Evaluar el Riesgo de Impago
 
 A continuación se presentan las reglas del sistema de inferencia difuso. Estas fueron diseñadas para ser más flexibles y realistas, permitiendo decisiones menos estrictas pero coherentes con el comportamiento esperado de riesgo crediticio:
@@ -104,6 +106,15 @@ A continuación se presentan las reglas del sistema de inferencia difuso. Estas 
 9. **Regla 9:**  
    Si el ingreso mensual es **medio** y el puntaje crediticio es **bueno**,  
    entonces el **riesgo de impago** es **bajo**.
+
+### Proceso de Defuzzificación
+
+Una vez asignados los valores de entrada (ingreso mensual, estabilidad laboral y puntaje crediticio), se ejecuta el sistema de inferencia difusa. Este proceso activa las reglas definidas en el sistema, combinando las salidas de cada regla en una única función difusa para la variable de salida: **riesgo de impago**.
+
+Para convertir esta salida difusa en un valor numérico preciso, se aplica el proceso de **defuzzificación**. En este caso, se utiliza el método del **centroide**, también conocido como **centro de gravedad**.
+
+El resultado final es un **valor crisp** (numérico y único), que se interpreta como el **porcentaje de riesgo de impago** del solicitante.
+
 
 ## 3. Ontología y Razonamiento Semántico (RDFLib y OWL-RL)
 ### Clases
