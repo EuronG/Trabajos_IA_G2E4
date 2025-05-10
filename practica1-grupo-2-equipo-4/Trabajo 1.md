@@ -36,9 +36,9 @@
 
 	- **Universo del Discurso:** $U = [0, 1000]$ (escala típica de puntajes crediticios)
 	- **Funciones de Pertenencia:**
-	  - $\mu_{malo}(x) = triangular(x; 0, 250, 450)$
+	  - $\mu_{malo}(x) = triangular(x; 0, 0, 500)$
 	  - $\mu_{regular}(x) = gaussiana(x; \mu=500, \sigma=150)$
-	  - $\mu_{bueno}(x) = trapezoidal(x; 600, 800, 1000, 1000)$
+	  - $\mu_{bueno}(x) = trapezoidal(x; 600, 720, 1000, 1000)$
 	- **Modificadores:**
 	  - $\mu_{muy\_bueno}(x) = [\mu_{bueno}(x)]^2$
 	  - $\mu_{más\_o\_menos\_malo}(x) = \sqrt{\mu_{malo}(x)}$
@@ -64,41 +64,57 @@
 
 A continuación, se presentan las reglas definidas para evaluar el riesgo de impago basado en el ingreso mensual, la estabilidad laboral y el puntaje crediticio.
 
-1. **Regla 1**  
-	Si el ingreso mensual es **bajo**, la estabilidad laboral es **inestable** y el puntaje crediticio es **malo**,  
-	entonces el riesgo de impago es **alto**.  
+---
 
-2. **Regla 2**  
-	Si el ingreso mensual es **medio**, la estabilidad laboral es **moderada** y el puntaje crediticio es **regular**,  
-	entonces el riesgo de impago es **medio**.  
+### Reglas Difusas para Evaluar el Riesgo de Impago
 
-3. **Regla 3**  
-	Si el ingreso mensual es **alto** o la estabilidad laboral es **muy estable** y el puntaje crediticio es **muy bueno**,  
-	entonces el riesgo de impago es **muy bajo**.  
+A continuación se presentan las reglas del sistema de inferencia difuso. Estas fueron diseñadas para ser más flexibles y realistas, permitiendo decisiones menos estrictas pero coherentes con el comportamiento esperado de riesgo crediticio:
 
-4. **Regla 4**  
-	Si el ingreso mensual **no** es **alto** y la estabilidad laboral es **inestable**,  
-	entonces el riesgo de impago es **alto**.  
+1. **Regla 1:**  
+   Si el ingreso mensual es **bajo** y el puntaje crediticio es **malo**,  
+   entonces el **riesgo de impago** es **alto**.
 
-5. **Regla 5**  
-	Si el ingreso mensual es **bajo** y el puntaje crediticio **no** es **bueno**,  
-	entonces el riesgo de impago es **alto**.  
+2. **Regla 2:**  
+   Si el ingreso mensual es **medio** o la estabilidad laboral es **moderada**,  
+   y el puntaje crediticio es **regular**,  
+   entonces el **riesgo de impago** es **medio**.
 
-6. **Regla 6**  
-	Si el ingreso mensual es **medio**, la estabilidad laboral **no** es **muy estable** y el puntaje crediticio es **regular**,  
-	entonces el riesgo de impago es **medio**.  
+3. **Regla 3:**  
+   Si el ingreso mensual es **alto** o el puntaje crediticio es **bueno**,  
+   entonces el **riesgo de impago** es **bajo**.
 
-7. **Regla 7**  
-	Si el ingreso mensual es **alto**, la estabilidad laboral es **muy estable** y el puntaje crediticio **no** es **malo**,  
-	entonces el riesgo de impago es **bajo**.  
+4. **Regla 4:**  
+   Si el ingreso mensual **no es alto** y la estabilidad laboral es **inestable**,  
+   entonces el **riesgo de impago** es **más o menos alto**.
 
-8. **Regla 8**  
-	Si el ingreso mensual es **medio** o la estabilidad laboral es **inestable** y el puntaje crediticio es **malo**,  
-	entonces el riesgo de impago es **alto**.  
+5. **Regla 5:**  
+   Si el ingreso mensual es **bajo** o el puntaje crediticio **no es bueno**,  
+   entonces el **riesgo de impago** es **alto**.
 
-9. **Regla 9**  
-	Si el ingreso mensual es **medio** y la estabilidad laboral es **muy estable** y el puntaje crediticio es **muy bueno**,  
-	entonces el riesgo de impago es **bajo**.  
+6. **Regla 6:**  
+   Si el ingreso mensual es **medio** y el puntaje crediticio es **regular**,  
+   entonces el **riesgo de impago** es **medio**.
+
+7. **Regla 7:**  
+   Si la estabilidad laboral es **muy estable** y el puntaje crediticio **no es malo**,  
+   entonces el **riesgo de impago** es **bajo**.
+
+8. **Regla 8:**  
+   Si la estabilidad laboral es **inestable** y el puntaje crediticio es **malo**,  
+   entonces el **riesgo de impago** es **alto**.
+
+9. **Regla 9:**  
+   Si el ingreso mensual es **medio** y el puntaje crediticio es **bueno**,  
+   entonces el **riesgo de impago** es **bajo**.
+
+### Proceso de Defuzzificación
+
+Una vez asignados los valores de entrada (ingreso mensual, estabilidad laboral y puntaje crediticio), se ejecuta el sistema de inferencia difusa. Este proceso activa las reglas definidas en el sistema, combinando las salidas de cada regla en una única función difusa para la variable de salida: **riesgo de impago**.
+
+Para convertir esta salida difusa en un valor numérico preciso, se aplica el proceso de **defuzzificación**. En este caso, se utiliza el método del **centroide**, también conocido como **centro de gravedad**.
+
+El resultado final es un **valor crisp** (numérico y único), que se interpreta como el **porcentaje de riesgo de impago** del solicitante.
+
 
 ## 3. Ontología y Razonamiento Semántico (RDFLib y OWL-RL)
 ### Clases
