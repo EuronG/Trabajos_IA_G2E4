@@ -2,60 +2,103 @@
 
 ### Variables Difusas
 
-1. **Ingreso mensual**
+1. **Ingreso Mensual**
 
-**Universo del discurso:** 0 - 10 (en millones de pesos)
+	- **Universo del Discurso:** $U = [0, 10]$ (en millones de pesos)
+	- **Funciones de Pertenencia:**
+	  - $\mu_{bajo}(x) = trapezoidal(x; 0, 0, 1.4, 2.8)$
+	  - $\mu_{medio}(x) = triangular(x; 1.4, 3, 5.5)$
+	  - $\mu_{alto}(x) = gaussiana(x; \mu=10, \sigma=2.8)$
+	- **Modificadores:**
+	  - $\mu_{más\_o\_menos\_alto}(x) = \sqrt{\mu_{alto}(x)}$
+	  - $\mu_{extremadamente\_alto}(x) = [\mu_{alto}(x)]^3$
 
-**Valores difusos:**
-
-- **Bajo:** función de pertenencia $trapezoidal(0,0,1.4,2.8)$
-- **Medio:** función de pertenencia $triangular(1.4,3,5.5)$
-- **Alto:** función de pertenencia $gaussiana(\mu=10,\sigma=2.8)$
-
-**Modificadores:**
-
-- *Más o menos alto:* $\sqrt{\mu_{alto}(x)}$
-- *Extremadamente alto:* $[\mu_{alto}(x)]^3$
-
-![ingresos_mensuales.png](images/ingresos_mensuales.png)
+	![ingresos_mensuales.png](images/ingresos_mensuales.png)
 
 ---
 
 2. **Estabilidad Laboral**
 
-**Universo del discurso:** 0 - 10 (escala numérica de estabilidad)
+	- **Universo del Discurso:** $U = [0, 10]$ (escala numérica de estabilidad)
+	- **Funciones de Pertenencia:**
+	  - $\mu_{inestable}(x) = trapezoidal(x; 0, 0, 2, 4)$
+	  - $\mu_{moderada}(x) = triangular(x; 3, 5.5, 7)$
+	  - $\mu_{estable}(x) = gaussiana(x; \mu=10, \sigma=2.5)$
+	- **Modificadores:**
+	  - $\mu_{muy\_estable}(x) = [\mu_{estable}(x)]^2$
+	  - $\mu_{más\_o\_menos\_estable}(x) = \sqrt{\mu_{estable}(x)}$
 
-**Valores difusos:**
-
-- **Inestable:** función de pertenencia $trapezoidal(0,0,2,4)$
-- **Moderada:** función de pertenencia $triangular(3,5.5,7)$
-- **Estable:** función de pertenencia $gaussiana(\mu=10,\sigma=2.5)$
-
-**Modificadores:**
-
-- *Muy estable:* $[\mu_{estable}(x)]^2$
-- *Más o menos estable:* $\sqrt{\mu_{estable}(x)}$
-
-![estabilidad_laboral.png](images/estabilidad_laboral.png)
+	![estabilidad_laboral.png](images/estabilidad_laboral.png)
 
 ---
 
 3. **Puntaje Crediticio**
 
-**Universo del discurso:** 0 - 1000 (escala típica de puntajes crediticios)
+	- **Universo del Discurso:** $U = [0, 1000]$ (escala típica de puntajes crediticios)
+	- **Funciones de Pertenencia:**
+	  - $\mu_{malo}(x) = triangular(x; 0, 250, 450)$
+	  - $\mu_{regular}(x) = gaussiana(x; \mu=500, \sigma=150)$
+	  - $\mu_{bueno}(x) = trapezoidal(x; 600, 800, 1000, 1000)$
+	- **Modificadores:**
+	  - $\mu_{muy\_bueno}(x) = [\mu_{bueno}(x)]^2$
+	  - $\mu_{más\_o\_menos\_malo}(x) = \sqrt{\mu_{malo}(x)}$
 
-**Valores difusos:**
+	![puntaje_crediticio.png](images/puntaje_crediticio.png)
 
-- **Malo:** función de pertenencia $triangular(0,250,450)$
-- **Regular:** función de pertenencia $gaussiana(\mu=500,\sigma=150)$
-- **Bueno:** función de pertenencia $trapezoidal(600,800,1000,1000)$
+---
 
-**Modificadores:**
+4. **Riesgo de Impago**
 
-- *Muy bueno:* $[\mu_{bueno}(x)]^2$
-- *Mas o menos malo:* $\sqrt{\mu_{malo}(x)}$
+	- **Universo del Discurso:** $U = [0, 100]$ (escala de riesgo porcentual)
+	- **Funciones de Pertenencia:**
+	  - $\mu_{bajo}(x) = triangular(x; 0, 0, 35)$
+	  - $\mu_{medio}(x) = trapezoidal(x; 20, 40, 60, 80)$
+	  - $\mu_{alto}(x) = gaussiana(x; \mu=100, \sigma=25)$
+	- **Modificadores:**
+	  - $\mu_{muy\_bajo}(x) = [\mu_{bajo}(x)]^2$
+	  - $\mu_{más\_o\_menos\_alto}(x) = \sqrt{\mu_{alto}(x)}$
 
-![puntaje_crediticio.png](images/puntaje_crediticio.png)
+	![riesgo_impago.png](images/riesgo_impago.png)
+
+### Reglas Difusas.
+
+A continuación, se presentan las reglas definidas para evaluar el riesgo de impago basado en el ingreso mensual, la estabilidad laboral y el puntaje crediticio.
+
+1. **Regla 1**  
+	Si el ingreso mensual es **bajo**, la estabilidad laboral es **inestable** y el puntaje crediticio es **malo**,  
+	entonces el riesgo de impago es **alto**.  
+
+2. **Regla 2**  
+	Si el ingreso mensual es **medio**, la estabilidad laboral es **moderada** y el puntaje crediticio es **regular**,  
+	entonces el riesgo de impago es **medio**.  
+
+3. **Regla 3**  
+	Si el ingreso mensual es **alto** o la estabilidad laboral es **muy estable** y el puntaje crediticio es **muy bueno**,  
+	entonces el riesgo de impago es **muy bajo**.  
+
+4. **Regla 4**  
+	Si el ingreso mensual **no** es **alto** y la estabilidad laboral es **inestable**,  
+	entonces el riesgo de impago es **alto**.  
+
+5. **Regla 5**  
+	Si el ingreso mensual es **bajo** y el puntaje crediticio **no** es **bueno**,  
+	entonces el riesgo de impago es **alto**.  
+
+6. **Regla 6**  
+	Si el ingreso mensual es **medio**, la estabilidad laboral **no** es **muy estable** y el puntaje crediticio es **regular**,  
+	entonces el riesgo de impago es **medio**.  
+
+7. **Regla 7**  
+	Si el ingreso mensual es **alto**, la estabilidad laboral es **muy estable** y el puntaje crediticio **no** es **malo**,  
+	entonces el riesgo de impago es **bajo**.  
+
+8. **Regla 8**  
+	Si el ingreso mensual es **medio** o la estabilidad laboral es **inestable** y el puntaje crediticio es **malo**,  
+	entonces el riesgo de impago es **alto**.  
+
+9. **Regla 9**  
+	Si el ingreso mensual es **medio** y la estabilidad laboral es **muy estable** y el puntaje crediticio es **muy bueno**,  
+	entonces el riesgo de impago es **bajo**.  
 
 ## 3. Ontología y Razonamiento Semántico (RDFLib y OWL-RL)
 ### Clases
@@ -99,6 +142,7 @@
 la aplicación del razonamiento semántico ha permitido ampliar automáticamente el grafo RDF, generando nuevas afirmaciones que fortalecen la representación del conocimiento.
 La segunda imagen muestra el **grafo después del razonamiento**. En este caso, se han añadido automáticamente nuevas afirmaciones implícitas derivadas de las reglas semánticas. Estas inferencias enriquecen el conocimiento representado en el grafo.
 #### Antes:
-![[graph_before.png]]
+![graph_before.png](images/graph_before.png)
 #### Después:
-![[graph_after.png]]
+![graph_after.png](images/graph_after.png)
+
