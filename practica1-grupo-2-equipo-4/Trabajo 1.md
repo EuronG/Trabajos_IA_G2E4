@@ -89,7 +89,7 @@ A continuación se presentan las reglas del sistema de inferencia difuso. Estas 
 
 5. **Regla 5:**  
    Si el ingreso mensual es **bajo** o el puntaje crediticio **no es bueno**,  
-   entonces el **riesgo de impago** es **alto**.
+   entonces el **riesgo de impago** es **mas o menos alto**.
 
 6. **Regla 6:**  
    Si el ingreso mensual es **medio** y el puntaje crediticio es **regular**,  
