@@ -162,3 +162,106 @@ La segunda imagen muestra el **grafo después del razonamiento**. En este caso, 
 #### Después:
 ![graph_after.png](images/graph_after.png)
 
+# Sistema Experta
+
+## Reglas Sistema Experta
+
+### Reglas Prioridad Alta - Rechazar Credito
+
+- **Regla 1**: Si la persona es menor de edad (< 18 años), se rechaza el crédito.
+- **Regla 2**: Si la persona es mayor de 75 años, se rechaza el crédito.
+- **Regla 3**: Si el riesgo de impago > 0.8, se rechaza el crédito.
+- **Regla 4**: Si el sueldo es menor a 1 millones de pesos, se rechaza el crédito. 
+- **Regla 5**: Si el puntaje crediticio < 300, se rechaza el crédito.
+- **Regla 6**: Si el monto solicitado supera a la capacidad de endeudamiento, se rechaza el crédito.
+- **Regla 7**: Si el plazo del crédito supera los 60 meses, se rechaza el crédito.
+
+### Reglas Prioridad Media - Aceptar Credito
+
+- **Regla 8**: Si el monto solicitado es menor o igual a 5 millones de pesos, se aprueba sin calcular interés.
+- **Regla 9**: Si el riesgo de impago es ≤ 0.4, se aprueba sin calcular interés.
+- **Regla 10**: Si el puntaje es ≥ 500, se aprueba sin calcular interés.
+- **Regla 11**: Si el ingreso mensual es mayor a 5 millones de pesos, se aprueba sin calcular interés.
+
+### Reglas de Asignación de Interés
+
+- **Regla 12**: Si el crédito está aprobado y aún no tiene interés, se asigna un interés base según el riesgo y el puntaje.
+- **Regla 13**: Si riesgo < 0.3 y puntaje ≥ 800, se aplica un descuento de 2 puntos al interés.
+- **Regla 14**: Si se solicita > 50 millones de pesos y el riesgo es mayor a 0.5, se aplica un recargo de 2 puntos.
+- **Regla 15**: Si el plazo es corto (≤ 12 meses), se descuenta 1 punto del interés.
+- **Regla 16**: Si el monto solicitado es ≤ 5 millones de pesos, se descuenta 1.5 puntos por tratarse de microcrédito.
+- **Regla 17**: El interés se ajusta para que esté entre 5% y 20%.
+
+### Regla de Revisión Final
+
+- **Regla 18**: Si no se cumple ninguna regla anterior, el crédito queda en estado "revisar" con interés 0.0.
+
+## Explicación de los Hechos en el Sistema Experto
+
+A continuación se explican los hechos utilizados en el sistema experto para evaluación de créditos:
+
+### Hechos(FACT)
+
+---
+
+####  `PersonaFact`
+
+Representa los datos personales del solicitante del crédito.
+
+| Campo             | Tipo           | Descripción |
+|------------------|----------------|-------------|
+| `name`           | `str`          | Nombre de la persona. |
+| `anio_nacimiento`| `int`          | Año de nacimiento; útil para calcular la edad y validar si está en edad laboral. |
+| `riesgo_impago`  | `float` o `int`| Probabilidad estimada de que la persona no pague el crédito. Se usa para ajustar la tasa de interés. |
+
+---
+
+####  `IngresoFact`
+
+Contiene información sobre los ingresos del solicitante.
+
+| Campo    | Tipo           | Descripción |
+|----------|----------------|-------------|
+| `monto`  | `float` o `int`| Ingreso económico mensual o anual. Se utiliza para calcular la capacidad de pago. |
+
+---
+
+####  `HistorialFact`
+
+Describe el historial financiero del solicitante.
+
+| Campo                    | Tipo           | Descripción |
+|--------------------------|----------------|-------------|
+| `puntaje`                | `float` o `int`| Puntaje de crédito asignado por agencias financieras. |
+| `capacidad_endeudamiento`| `float` o `int`| Cuánto puede endeudarse según sus ingresos y deudas actuales. |
+
+---
+
+####  `CreditoFact`
+
+Define la solicitud de crédito realizada por la persona.
+
+| Campo       | Tipo           | Descripción |
+|-------------|----------------|-------------|
+| `solicitado`| `float` o `int`| Monto del crédito solicitado. |
+| `plazo`     | `int`          | Plazo en meses para devolver el crédito. |
+---
+
+#### `ResultadoFact`
+
+Resultado del análisis y procesamiento de la solicitud. También incluye indicadores internos para controlar la lógica del sistema.
+
+| Campo                        | Tipo                        | Descripción |
+|-----------------------------|-----------------------------|-------------|
+| `aprobado`                  | `str`                       | Indica si el crédito fue aprobado (`"sí"` o `"no"`). |
+| `interes`                   | `float`, `int` o `None`     | Tasa de interés final asignada. |
+| `base_calculada`            | `bool`                      | Si ya se hizo el cálculo inicial de interés. |
+| `descuento_aplicado`        | `bool`                      | Si ya se aplicó un descuento por buen historial. |
+| `recargo_aplicado`          | `bool`                      | Si ya se aplicó un recargo por alto riesgo. |
+| `beneficio_plazo_corto_aplicado` | `bool`                | Si ya se aplicó una mejora por corto plazo de pago. |
+| `preferencial_aplicado`     | `bool`                      | Si ya se aplicaron condiciones especiales al solicitante. |
+| `microcredito_aplicado`     | `bool`                      | Si el sistema consideró la solicitud como un microcrédito. |
+| `clamp_aplicado`            | `bool`                      | Si ya se ajustó el interés dentro de los límites permitidos (5%-20%). |
+
+---
+
