@@ -136,24 +136,28 @@ El resultado final es un **valor crisp** (numérico y único), que se interpreta
 	15. CapacidadEndeudamiento
 
 ### Propiedades
-|       | Propiedad                   | Dominio            | Rango            | Comentario                                                        |
-| ----- | --------------------------- | ------------------ | ---------------- | ----------------------------------------------------------------- |
-| 1     | `foaf:name`                 | Persona            | `xsd:string`     | Usa FOAF para el nombre de la persona.                            |
-| 2     | `ex:anioNacimiento`         | Persona            | `xsd:gYear`      | Año de nacimiento.                                                |
-| 3     | `ex:tieneIngreso`           | Persona            | Ingreso          | Relaciona a una persona con su ingreso (objeto).                  |
-| ~~4~~ | ~~`ex:tipoIngreso`~~        | ~~Ingreso~~        | ~~`xsd:string`~~ | ~~Fijo, variable (puede redundar pero útil para lógica difusa).~~ |
-| 5     | `ex:montoIngreso`           | Ingreso            | `xsd:decimal`    | Cuánto gana la persona.                                           |
-| 6     | `ex:TieneCredito`           | Persona            | Credito          | Indica los créditos que actualmente tiene activos.                |
-| 7     | `ex:monto`                  | Credito            | `xsd:decimal`    | Monto del crédito.                                                |
-| 8     | ` ↳ ex:montoSolicitado`     | *Credito*          | *`xsd:decimal`*  | Subpropiedad de `ex:monto`: monto solicitado.                     |
-| 9     | ` ↳ ex:montoAprobado`       | *Credito*          | *`xsd:decimal`*  | Subpropiedad de `ex:monto`: monto aprobado.                       |
-| 10    | `ex:plazo`                  | Credito            | `xsd:integer`    | Plazo en meses o años.                                            |
-| 11    | `ex:tieneHistorial`         | Persona            | Historial        | Conecta persona con su historial.                                 |
-| 12    | `ex:puntajeCrediticio`      | Historial          | `xsd:decimal`    | Escala de 0 a 1000, por ejemplo.                                  |
-| 13    | `ex:capacidadEndeudamiento` | Historial          | `xsd:decimal`    | Representa el monto máximo calculado.                             |
-| 14    | `ex:estadoCredito`          | Credito            | `xsd:string`     | Aprobado, Rechazado, Activo, PendienteDeAprobación.               |
-| 15    | `ex:estabilidadLaboral`     | Persona (Empleado) | `xsd:string`     | Alta, media, baja (útil para lógica difusa).                      |
-| 16    | `dc:identifier`             | Credito            | `xsd:string`     | Identificador único del crédito (usa Dublin Core).                |
+|     | Propiedad                   | Dominio            | Rango           | Comentario                                                                         |
+| --- | --------------------------- | ------------------ | --------------- | ---------------------------------------------------------------------------------- |
+| 1   | `foaf:name`                 | Persona            | `xsd:string`    | Usa FOAF para el nombre de la persona.                                             |
+| 2   | `ex:anioNacimiento`         | Persona            | `xsd:gYear`     | Año de nacimiento.                                                                 |
+| 3   | `ex:tieneIngreso`           | Persona            | Ingreso         | Relaciona a una persona con su ingreso (objeto).                                   |
+| 4   | `ex:montoIngreso`           | Ingreso            | `xsd:decimal`   | Cuánto gana la persona.                                                            |
+| 5   | `ex:tieneCredito`           | Persona            | Credito         | Indica los créditos que actualmente tiene activos.                                 |
+| 6   | `ex:monto`                  | Credito            | `xsd:decimal`   | Monto del crédito.                                                                 |
+| 7   | ` ↳ ex:montoSolicitado`     | *Credito*          | *`xsd:decimal`* | Subpropiedad de `ex:monto`: monto solicitado.                                      |
+| 8   | ` ↳ ex:montoAprobado`       | *Credito*          | *`xsd:decimal`* | Subpropiedad de `ex:monto`: monto aprobado.                                        |
+| 9   | `ex:plazo`                  | Credito            | `xsd:integer`   | Plazo en meses o años.                                                             |
+| 10  | `ex:tieneHistorial`         | Persona            | Historial       | Conecta persona con su historial.                                                  |
+| 11  | `ex:puntajeCrediticio`      | Historial          | `xsd:decimal`   | Escala de 0 a 1000, por ejemplo.                                                   |
+| 12  | `ex:capacidadEndeudamiento` | Historial          | `xsd:decimal`   | Representa el monto máximo calculado.                                              |
+| 13  | `ex:estadoCredito`          | Credito            | `xsd:string`    | Aprobado, Rechazado, Activo, PendienteDeAprobación.                                |
+| 14  | `ex:estabilidadLaboral`     | Persona (Empleado) | `xsd:string`    | Alta, media, baja (útil para lógica difusa).                                       |
+| 15  | `dc:identifier`             | Credito            | `xsd:string`    | Identificador único del crédito (usa Dublin Core).                                 |
+| 16  | `foaf:knows`                | Persona            | Persona         | Permite modelar relaciones generales entre personas.                               |
+| 17  | ` ↳ ex:referido`            | Persona            | Persona         | Subpropiedad de `foaf:knows`, indica quién refirió a quién.                        |
+| 18  | ` ↳ ex:coSolicitante`       | Persona            | Persona         | Subpropiedad de `foaf:knows`, representa relaciones de co-solicitud o co-deudores. |
+### Diagrama de Clases
+![[IA1_Clases.drawio.svg]]
 ### Comparativa de Grafos (Antes vs Después del Razonador)
 la aplicación del razonamiento semántico ha permitido ampliar automáticamente el grafo RDF, generando nuevas afirmaciones que fortalecen la representación del conocimiento.
 La segunda imagen muestra el **grafo después del razonamiento**. En este caso, se han añadido automáticamente nuevas afirmaciones implícitas derivadas de las reglas semánticas. Estas inferencias enriquecen el conocimiento representado en el grafo.
@@ -161,6 +165,158 @@ La segunda imagen muestra el **grafo después del razonamiento**. En este caso, 
 ![graph_before.png](images/graph_before.png)
 #### Después:
 ![graph_after.png](images/graph_after.png)
+
+### Documentación de los Casos de Generación de Nuevo Conocimiento
+
+Este documento presenta tres casos de inferencia de nuevo conocimiento aplicados a una ontología del dominio de evaluación de créditos. Cada caso se ejemplifica con triples RDF antes y después del razonamiento automático, destacando cómo se generan nuevos hechos a partir de jerarquías de clases, propiedades y relaciones semánticas.
+
+---
+
+#### Caso 1: Inferencia por Jerarquía de Clases
+Este caso se basa en la relación de **herencia entre clases**. Si una instancia pertenece a una subclase, entonces también pertenece a todas sus **superclases**.  
+Por ejemplo, si `Estudiante` es una subclase de `Persona`, entonces todo `Estudiante` es también una `Persona`.
+
+##### Antes de la inferencia
+
+```turtle
+# Freddy es un Estudiante
+<http://practica1.org/evaluacion_creditos#Freddy> rdf:type <http://practica1.org/evaluacion_creditos#Estudiante> .
+
+# ProyectosValentina es un IngresoVariable
+<http://practica1.org/evaluacion_creditos#ProyectosValentina> rdf:type <http://practica1.org/evaluacion_creditos#IngresoVariable> .
+```
+
+##### Después de la inferencia
+
+```turtle
+# Freddy hereda ser Persona y Resource
+<http://practica1.org/evaluacion_creditos#Freddy> rdf:type <http://practica1.org/evaluacion_creditos#Estudiante> .
+<http://practica1.org/evaluacion_creditos#Freddy> rdf:type <http://practica1.org/evaluacion_creditos#Persona> .
+<http://practica1.org/evaluacion_creditos#Freddy> rdf:type rdfs:Resource .
+
+# ProyectosValentina hereda ser Ingreso y Resource
+<http://practica1.org/evaluacion_creditos#ProyectosValentina> rdf:type <http://practica1.org/evaluacion_creditos#IngresoVariable> .
+<http://practica1.org/evaluacion_creditos#ProyectosValentina> rdf:type <http://practica1.org/evaluacion_creditos#Ingreso> .
+<http://practica1.org/evaluacion_creditos#ProyectosValentina> rdf:type rdfs:Resource .
+```
+
+---
+
+#### Caso 2: Inferencia desde Dominio y Rango de Propiedades
+En este caso, el razonamiento se basa en el uso del **dominio y rango** de una propiedad. Si se indica que una propiedad (como `tieneCredito`) tiene un dominio y rango definidos, se puede inferir el tipo de las entidades involucradas, incluso si inicialmente no estaban especificadas.
+
+##### Antes de la inferencia
+
+```turtle
+# Marta tiene un crédito, pero no se conocen sus tipos
+<http://practica1.org/evaluacion_creditos#Marta> <http://practica1.org/evaluacion_creditos#tieneCredito> <http://practica1.org/evaluacion_creditos#CreditoViajeMarta> .
+```
+
+##### Después de la inferencia
+
+```turtle
+# Se infiere que Marta es Persona y el crédito es de tipo Credito
+<http://practica1.org/evaluacion_creditos#Marta> <http://practica1.org/evaluacion_creditos#tieneCredito> <http://practica1.org/evaluacion_creditos#CreditoViajeMarta> .
+<http://practica1.org/evaluacion_creditos#Marta> rdf:type <http://practica1.org/evaluacion_creditos#Persona> .
+<http://practica1.org/evaluacion_creditos#Marta> rdf:type rdfs:Resource .
+<http://practica1.org/evaluacion_creditos#CreditoViajeMarta> rdf:type <http://practica1.org/evaluacion_creditos#Credito> .
+<http://practica1.org/evaluacion_creditos#CreditoViajeMarta> rdf:type rdfs:Resource .
+```
+
+---
+
+#### Caso 3: Inferencia desde Relación `subPropertyOf`
+Este caso emplea la relación **`subPropertyOf`**. Si una propiedad (por ejemplo, `referido`) es una subpropiedad de otra (como `foaf:knows`), se puede inferir que toda relación con `referido` también es una relación con `foaf:knows`.
+
+##### Antes de la inferencia
+
+```turtle
+# Juan tiene como referido a Rosa
+<http://practica1.org/evaluacion_creditos#Juan> <http://practica1.org/evaluacion_creditos#referido> <http://practica1.org/evaluacion_creditos#Rosa> .
+```
+
+##### Después de la inferencia
+
+```turtle
+# Se infiere que Juan conoce a Rosa
+<http://practica1.org/evaluacion_creditos#Juan> <http://practica1.org/evaluacion_creditos#referido> <http://practica1.org/evaluacion_creditos#Rosa> .
+<http://practica1.org/evaluacion_creditos#Juan> <http://xmlns.com/foaf/0.1/knows> <http://practica1.org/evaluacion_creditos#Rosa> .
+```
+
+---
+
+#### Casos Adicionales
+
+##### Adicional 1: Inferencia por Subpropiedad (`montoSolicitado` es subproperty de `monto`)
+
+**Relacionado con Caso 3**
+
+```turtle
+# Antes:
+# CreditoAutoRosa tiene un monto solicitado de 500000
+<http://practica1.org/evaluacion_creditos#CreditoAutoRosa> <http://practica1.org/evaluacion_creditos#montoSolicitado> 500000 .
+
+# Después:
+# CreditoAutoRosa tiene un monto de 500000
+<http://practica1.org/evaluacion_creditos#CreditoAutoRosa> <http://practica1.org/evaluacion_creditos#montoSolicitado> 500000 .
+<http://practica1.org/evaluacion_creditos#CreditoAutoRosa> <http://practica1.org/evaluacion_creditos#monto> 500000 .
+```
+
+---
+
+##### Adicional 2: Inferencia por Herencia de Clase (`CreditoHipotecario` ⊆ `Credito`)
+
+**Relacionado con Caso 1**
+
+```turtle
+# Antes:
+# CreditoCasaAlejandro es un CreditoHipotecario solamente
+<http://practica1.org/evaluacion_creditos#CreditoCasaAlejandro> rdf:type <http://practica1.org/evaluacion_creditos#CreditoHipotecario> .
+
+# Después:
+# CreditoCasaAlejandro es ahora también de tipo Credito
+<http://practica1.org/evaluacion_creditos#CreditoCasaAlejandro> rdf:type <http://practica1.org/evaluacion_creditos#CreditoHipotecario> .
+<http://practica1.org/evaluacion_creditos#CreditoCasaAlejandro> rdf:type <http://practica1.org/evaluacion_creditos#Credito> .
+<http://practica1.org/evaluacion_creditos#CreditoCasaAlejandro> rdf:type rdfs:Resource .
+```
+
+---
+
+##### Adicional 3: Inferencia por Herencia de Clase (`CapacidadEndeudamiento` ⊆ `Historial`)
+
+**Relacionado con Caso 1**
+
+```turtle
+# Antes:
+# CapacidadJose es una CapacidadEndeudamiento solamente
+<http://practica1.org/evaluacion_creditos#CapacidadJose> rdf:type <http://practica1.org/evaluacion_creditos#CapacidadEndeudamiento> .
+
+# Después:
+# CapacidadJose es ahora también de tipo Historial
+<http://practica1.org/evaluacion_creditos#CapacidadJose> rdf:type <http://practica1.org/evaluacion_creditos#CapacidadEndeudamiento> .
+<http://practica1.org/evaluacion_creditos#CapacidadJose> rdf:type <http://practica1.org/evaluacion_creditos#Historial> .
+<http://practica1.org/evaluacion_creditos#CapacidadJose> rdf:type rdfs:Resource .
+```
+
+---
+
+##### Adicional 4: Inferencia por Dominio y Rango
+
+**Relacionado con Caso 2**
+
+```turtle
+# Antes:
+# Freddy tiene un ingreso cuyo tipo no estaba definido
+<http://practica1.org/evaluacion_creditos#Freddy> <http://practica1.org/evaluacion_creditos#tieneIngreso> <http://practica1.org/evaluacion_creditos#ingresoDesconocidoFreddy> .
+
+# Después:
+# Ingreso desconocido de Freddy ahora es de tipo Ingreso
+<http://practica1.org/evaluacion_creditos#Freddy> <http://practica1.org/evaluacion_creditos#tieneIngreso> <http://practica1.org/evaluacion_creditos#ingresoDesconocidoFreddy> .
+<http://practica1.org/evaluacion_creditos#ingresoDesconocidoFreddy> rdf:type <http://practica1.org/evaluacion_creditos#Ingreso> .
+<http://practica1.org/evaluacion_creditos#ingresoDesconocidoFreddy> rdf:type rdfs:Resource .
+```
+
+---
 
 # Sistema Experta
 
