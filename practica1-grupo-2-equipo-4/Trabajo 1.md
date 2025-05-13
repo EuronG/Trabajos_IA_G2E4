@@ -158,28 +158,26 @@ El resultado final es un **valor crisp** (numérico y único), que se interpreta
    - CapacidadEndeudamiento
 
 ### Propiedades
-
-|     | Propiedad                   | Dominio            | Rango           | Comentario                                                                         |
-| --- | --------------------------- | ------------------ | --------------- | ---------------------------------------------------------------------------------- |
-| 1   | `foaf:name`                 | Persona            | `xsd:string`    | Usa FOAF para el nombre de la persona.                                             |
-| 2   | `ex:anioNacimiento`         | Persona            | `xsd:gYear`     | Año de nacimiento.                                                                 |
-| 3   | `ex:tieneIngreso`           | Persona            | Ingreso         | Relaciona a una persona con su ingreso (objeto).                                   |
-| 4   | `ex:montoIngreso`           | Ingreso            | `xsd:decimal`   | Cuánto gana la persona.                                                            |
-| 5   | `ex:tieneCredito`           | Persona            | Credito         | Indica los créditos que actualmente tiene activos.                                 |
-| 6   | `ex:monto`                  | Credito            | `xsd:decimal`   | Monto del crédito.                                                                 |
-| 7   | ` ↳ ex:montoSolicitado`     | *Credito*          | *`xsd:decimal`* | Subpropiedad de `ex:monto`: monto solicitado.                                      |
-| 8   | ` ↳ ex:montoAprobado`       | *Credito*          | *`xsd:decimal`* | Subpropiedad de `ex:monto`: monto aprobado.                                        |
-| 9   | `ex:plazo`                  | Credito            | `xsd:integer`   | Plazo en meses o años.                                                             |
-| 10  | `ex:tieneHistorial`         | Persona            | Historial       | Conecta persona con su historial.                                                  |
-| 11  | `ex:puntajeCrediticio`      | Historial          | `xsd:decimal`   | Escala de 0 a 1000, por ejemplo.                                                   |
-| 12  | `ex:capacidadEndeudamiento` | Historial          | `xsd:decimal`   | Representa el monto máximo calculado.                                              |
-| 13  | `ex:estadoCredito`          | Credito            | `xsd:string`    | Aprobado, Rechazado, Activo, PendienteDeAprobación.                                |
-| 14  | `ex:estabilidadLaboral`     | Persona (Empleado) | `xsd:string`    | Alta, media, baja (útil para lógica difusa).                                       |
-| 15  | `dc:identifier`             | Credito            | `xsd:string`    | Identificador único del crédito (usa Dublin Core).                                 |
-| 16  | `foaf:knows`                | Persona            | Persona         | Permite modelar relaciones generales entre personas.                               |
-| 17  | ` ↳ ex:referido`            | Persona            | Persona         | Subpropiedad de `foaf:knows`, indica quién refirió a quién.                        |
-| 18  | ` ↳ ex:coSolicitante`       | Persona            | Persona         | Subpropiedad de `foaf:knows`, representa relaciones de co-solicitud o co-deudores. |
-
+|     | Propiedad                   | Dominio   | Rango           | Comentario                                                                         |
+| --- | --------------------------- | --------- | --------------- | ---------------------------------------------------------------------------------- |
+| 1   | `foaf:name`                 | Persona   | `xsd:string`    | Usa FOAF para el nombre de la persona.                                             |
+| 2   | `ex:anioNacimiento`         | Persona   | `xsd:gYear`     | Año de nacimiento.                                                                 |
+| 3   | `ex:tieneIngreso`           | Persona   | Ingreso         | Relaciona a una persona con su ingreso (objeto).                                   |
+| 4   | `ex:montoIngreso`           | Ingreso   | `xsd:decimal`   | Cuánto gana la persona.                                                            |
+| 5   | `ex:tieneCredito`           | Persona   | Credito         | Indica los créditos que actualmente tiene activos.                                 |
+| 6   | `ex:monto`                  | Credito   | `xsd:decimal`   | Monto del crédito.                                                                 |
+| 7   | ` ↳ ex:montoSolicitado`     | *Credito* | *`xsd:decimal`* | Subpropiedad de `ex:monto`: monto solicitado.                                      |
+| 8   | ` ↳ ex:montoAprobado`       | *Credito* | *`xsd:decimal`* | Subpropiedad de `ex:monto`: monto aprobado.                                        |
+| 9   | `ex:plazo`                  | Credito   | `xsd:integer`   | Plazo en meses o años.                                                             |
+| 10  | `ex:tieneHistorial`         | Persona   | Historial       | Conecta persona con su historial.                                                  |
+| 11  | `ex:puntajeCrediticio`      | Historial | `xsd:decimal`   | Escala de 0 a 1000, por ejemplo.                                                   |
+| 12  | `ex:capacidadEndeudamiento` | Historial | `xsd:decimal`   | Representa el monto máximo calculado.                                              |
+| 13  | `ex:estadoCredito`          | Credito   | `xsd:string`    | Aprobado, Rechazado, Activo, PendienteDeAprobación.                                |
+| 14  | `ex:estabilidadLaboral`     | Persona   | `xsd:decimal`   | Alta, media, baja (útil para lógica difusa).                                       |
+| 15  | `dc:identifier`             | Credito   | `xsd:string`    | Identificador único del crédito (usa Dublin Core).                                 |
+| 16  | `foaf:knows`                | Persona   | Persona         | Permite modelar relaciones generales entre personas.                               |
+| 17  | ` ↳ ex:referido`            | Persona   | Persona         | Subpropiedad de `foaf:knows`, indica quién refirió a quién.                        |
+| 18  | ` ↳ ex:coSolicitante`       | Persona   | Persona         | Subpropiedad de `foaf:knows`, representa relaciones de co-solicitud o co-deudores. |
 ### Diagrama de Clases
 
 ![IA1_Clases.drawio.svg](images/IA1_Clases.drawio.svg)
