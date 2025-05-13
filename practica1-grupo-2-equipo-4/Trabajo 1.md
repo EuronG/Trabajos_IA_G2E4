@@ -7,7 +7,11 @@ Juan Diego Giraldo Jaramillo
 
 **Enlace video tipo pitch**
 
-*Enlace*
+*https://youtu.be/_PJKaTsAObc*
+
+**Enlace Github**
+
+*https://github.com/EuronG/Trabajos_IA_G2E4*
 
 ## Descripción del Problema
 
@@ -181,7 +185,7 @@ El resultado final es un **valor crisp** (numérico y único), que se interpreta
 | 18  | ` ↳ ex:coSolicitante`       | Persona   | Persona         | Subpropiedad de `foaf:knows`, representa relaciones de co-solicitud o co-deudores. |
 ### Diagrama de Clases
 
-![IA1_Clases.drawio.svg](images/DiagramaClases.drawio.svg)
+![IA1_Clases.drawio.svg](images/DiagramaClases.drawio.jpg)
 
 ### Comparativa de Grafos (Antes vs Después del Razonador)
 
