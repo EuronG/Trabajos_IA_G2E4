@@ -6,6 +6,7 @@ Sebastian Pabon Nuñez
 Juan Diego Giraldo Jaramillo  
 
 **Enlace video tipo pitch**
+
 *Enlace*
 
 ## Descripción del Problema
@@ -180,7 +181,7 @@ El resultado final es un **valor crisp** (numérico y único), que se interpreta
 | 18  | ` ↳ ex:coSolicitante`       | Persona   | Persona         | Subpropiedad de `foaf:knows`, representa relaciones de co-solicitud o co-deudores. |
 ### Diagrama de Clases
 
-![IA1_Clases.drawio.svg](images/IA1_Clases.drawio.svg)
+![IA1_Clases.drawio.svg](images/DiagramaClases.drawio.svg)
 
 ### Comparativa de Grafos (Antes vs Después del Razonador)
 
