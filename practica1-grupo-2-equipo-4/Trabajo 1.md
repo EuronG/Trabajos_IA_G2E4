@@ -1,74 +1,96 @@
-## 2. Lógica Difusa (Sci-kit Fuzzy)
+# Sistema de Evaluación de Créditos
+
+**Autores:**  
+Jhofred Jahat Camacho Gomez  
+Sebastian Pabon Nuñez  
+Juan Diego Giraldo Jaramillo  
+
+**Enlace video tipo pitch**
+*Enlace*
+
+## Descripción del Problema
+
+El objetivo del taller es desarrollar un sistema inteligente para la evaluación y aprobación de solicitudes de crédito bancario. El sistema debe:
+
+- Evaluar el riesgo crediticio de los solicitantes utilizando múltiples variables
+- Determinar si se aprueba o rechaza una solicitud de crédito
+- Calcular las tasas de interés apropiadas para los créditos aprobados
+
+El sistema implementa tres enfoques complementarios:
+
+1. **Lógica Difusa**: Para manejar la incertidumbre en variables como ingresos, estabilidad laboral y riesgo de impago
+2. **Ontologías**: Para representar y razonar sobre las relaciones entre entidades del dominio crediticio
+3. **Sistema Experto**: Para aplicar reglas de decisión basadas en el conocimiento del dominio
+
+Este enfoque híbrido permite una evaluación más robusta y flexible de las solicitudes de crédito, considerando tanto factores cuantitativos como cualitativos en el proceso de toma de decisiones.
+
+## Lógica Difusa (Sci-kit Fuzzy)
+
+El sistema de lógica difusa desarrollado en este proyecto tiene como objetivo principal evaluar el riesgo de impago de los solicitantes de crédito bancario. Este enfoque permite manejar la incertidumbre inherente a las variables que influyen en la toma de decisiones, como el ingreso mensual, la estabilidad laboral y el puntaje crediticio. A través de la definición de conjuntos difusos y reglas de inferencia, el sistema es capaz de realizar evaluaciones más flexibles y precisas, integrando tanto factores cuantitativos como cualitativos.
 
 ### Variables Difusas
 
-1. **Ingreso Mensual**
+#### Ingreso Mensual
 
-	- **Universo del Discurso:** $U = [0, 10]$ (en millones de pesos)
-	- **Funciones de Pertenencia:**
-	  - $\mu_{bajo}(x) = trapezoidal(x; 0, 0, 1.4, 2.8)$
-	  - $\mu_{medio}(x) = triangular(x; 1.4, 3, 5.5)$
-	  - $\mu_{alto}(x) = gaussiana(x; \mu=10, \sigma=2.8)$
-	- **Modificadores:**
-	  - $\mu_{más\_o\_menos\_alto}(x) = \sqrt{\mu_{alto}(x)}$
-	  - $\mu_{extremadamente\_alto}(x) = [\mu_{alto}(x)]^3$
+- **Universo del Discurso:** $U = [0, 10]$ (en millones de pesos)
+- **Funciones de Pertenencia:**
+  - $\mu_{bajo}(x) = trapezoidal(x; 0, 0, 1.4, 2.8)$
+  - $\mu_{medio}(x) = triangular(x; 1.4, 3, 5.5)$
+  - $\mu_{alto}(x) = gaussiana(x; \mu=10, \sigma=2.8)$
+- **Modificadores:**
+  - $\mu_{más\_o\_menos\_alto}(x) = \sqrt{\mu_{alto}(x)}$
+  - $\mu_{extremadamente\_alto}(x) = [\mu_{alto}(x)]^3$
 
-	![ingresos_mensuales.png](images/ingresos_mensuales.png)
-
----
-
-2. **Estabilidad Laboral**
-
-	- **Universo del Discurso:** $U = [0, 10]$ (escala numérica de estabilidad)
-	- **Funciones de Pertenencia:**
-	  - $\mu_{inestable}(x) = trapezoidal(x; 0, 0, 2, 4)$
-	  - $\mu_{moderada}(x) = triangular(x; 3, 5.5, 7)$
-	  - $\mu_{estable}(x) = gaussiana(x; \mu=10, \sigma=2.5)$
-	- **Modificadores:**
-	  - $\mu_{muy\_estable}(x) = [\mu_{estable}(x)]^2$
-	  - $\mu_{más\_o\_menos\_estable}(x) = \sqrt{\mu_{estable}(x)}$
-
-	![estabilidad_laboral.png](images/estabilidad_laboral.png)
+![ingresos_mensuales.png](images/ingresos_mensuales.png)
 
 ---
 
-3. **Puntaje Crediticio**
+#### Estabilidad Laboral
 
-	- **Universo del Discurso:** $U = [0, 1000]$ (escala típica de puntajes crediticios)
-	- **Funciones de Pertenencia:**
-	  - $\mu_{malo}(x) = triangular(x; 0, 0, 500)$
-	  - $\mu_{regular}(x) = gaussiana(x; \mu=500, \sigma=150)$
-	  - $\mu_{bueno}(x) = trapezoidal(x; 600, 720, 1000, 1000)$
-	- **Modificadores:**
-	  - $\mu_{muy\_bueno}(x) = [\mu_{bueno}(x)]^2$
-	  - $\mu_{más\_o\_menos\_malo}(x) = \sqrt{\mu_{malo}(x)}$
+- **Universo del Discurso:** $U = [0, 10]$ (escala numérica de estabilidad)
+- **Funciones de Pertenencia:**
+  - $\mu_{inestable}(x) = trapezoidal(x; 0, 0, 2, 4)$
+  - $\mu_{moderada}(x) = triangular(x; 3, 5.5, 7)$
+  - $\mu_{estable}(x) = gaussiana(x; \mu=10, \sigma=2.5)$
+- **Modificadores:**
+  - $\mu_{muy\_estable}(x) = [\mu_{estable}(x)]^2$
+  - $\mu_{más\_o\_menos\_estable}(x) = \sqrt{\mu_{estable}(x)}$
 
-	![puntaje_crediticio.png](images/puntaje_crediticio.png)
+![estabilidad_laboral.png](images/estabilidad_laboral.png)
 
 ---
 
-4. **Riesgo de Impago**
+#### Puntaje Crediticio
 
-	- **Universo del Discurso:** $U = [0, 100]$ (escala de riesgo porcentual)
-	- **Funciones de Pertenencia:**
-	  - $\mu_{bajo}(x) = triangular(x; 0, 0, 35)$
-	  - $\mu_{medio}(x) = trapezoidal(x; 20, 40, 60, 80)$
-	  - $\mu_{alto}(x) = gaussiana(x; \mu=100, \sigma=25)$
-	- **Modificadores:**
-	  - $\mu_{muy\_bajo}(x) = [\mu_{bajo}(x)]^2$
-	  - $\mu_{más\_o\_menos\_alto}(x) = \sqrt{\mu_{alto}(x)}$
+- **Universo del Discurso:** $U = [0, 1000]$ (escala típica de puntajes crediticios)
+- **Funciones de Pertenencia:**
+  - $\mu_{malo}(x) = triangular(x; 0, 0, 500)$
+  - $\mu_{regular}(x) = gaussiana(x; \mu=500, \sigma=150)$
+  - $\mu_{bueno}(x) = trapezoidal(x; 600, 720, 1000, 1000)$
+- **Modificadores:**
+  - $\mu_{muy\_bueno}(x) = [\mu_{bueno}(x)]^2$
+  - $\mu_{más\_o\_menos\_malo}(x) = \sqrt{\mu_{malo}(x)}$
 
-	![riesgo_impago.png](images/riesgo_impago.png)
+![puntaje_crediticio.png](images/puntaje_crediticio.png)
 
-### Reglas Difusas.
+---
+
+#### Riesgo de Impago
+
+- **Universo del Discurso:** $U = [0, 100]$ (escala de riesgo porcentual)
+- **Funciones de Pertenencia:**
+  - $\mu_{bajo}(x) = triangular(x; 0, 0, 35)$
+  - $\mu_{medio}(x) = trapezoidal(x; 20, 40, 60, 80)$
+  - $\mu_{alto}(x) = gaussiana(x; \mu=100, \sigma=25)$
+- **Modificadores:**
+  - $\mu_{muy\_bajo}(x) = [\mu_{bajo}(x)]^2$
+  - $\mu_{más\_o\_menos\_alto}(x) = \sqrt{\mu_{alto}(x)}$
+
+![riesgo_impago.png](images/riesgo_impago.png)
+
+### Reglas Difusas
 
 A continuación, se presentan las reglas definidas para evaluar el riesgo de impago basado en el ingreso mensual, la estabilidad laboral y el puntaje crediticio.
-
----
-
-### Reglas Difusas para Evaluar el Riesgo de Impago
-
-A continuación se presentan las reglas del sistema de inferencia difuso. Estas fueron diseñadas para ser más flexibles y realistas, permitiendo decisiones menos estrictas pero coherentes con el comportamiento esperado de riesgo crediticio:
 
 1. **Regla 1:**  
    Si el ingreso mensual es **bajo** y el puntaje crediticio es **malo**,  
@@ -115,27 +137,28 @@ Para convertir esta salida difusa en un valor numérico preciso, se aplica el pr
 
 El resultado final es un **valor crisp** (numérico y único), que se interpreta como el **porcentaje de riesgo de impago** del solicitante.
 
+## Ontología y Razonamiento Semántico (RDFLib y OWL-RL)
 
-## 3. Ontología y Razonamiento Semántico (RDFLib y OWL-RL)
 ### Clases
 
 1. Persona
-	2. Estudiante
-	3. Jubilado
-	4. Empleado
-	5. Independiente
+   - Estudiante
+   - Jubilado
+   - Empleado
+   - Independiente
 2. Ingreso
-	7. IngresoFijo
-	8. IngresoVariable
+   - IngresoFijo
+   - IngresoVariable
 3. Crédito
-	10. LibreInversion
-	11. CreditoHipotecario
-	12. CreditoVehicular
+   - LibreInversion
+   - CreditoHipotecario
+   - CreditoVehicular
 4. Historial
-	14. PuntajeCrediticio
-	15. CapacidadEndeudamiento
+   - PuntajeCrediticio
+   - CapacidadEndeudamiento
 
 ### Propiedades
+
 |     | Propiedad                   | Dominio            | Rango           | Comentario                                                                         |
 | --- | --------------------------- | ------------------ | --------------- | ---------------------------------------------------------------------------------- |
 | 1   | `foaf:name`                 | Persona            | `xsd:string`    | Usa FOAF para el nombre de la persona.                                             |
@@ -156,14 +179,22 @@ El resultado final es un **valor crisp** (numérico y único), que se interpreta
 | 16  | `foaf:knows`                | Persona            | Persona         | Permite modelar relaciones generales entre personas.                               |
 | 17  | ` ↳ ex:referido`            | Persona            | Persona         | Subpropiedad de `foaf:knows`, indica quién refirió a quién.                        |
 | 18  | ` ↳ ex:coSolicitante`       | Persona            | Persona         | Subpropiedad de `foaf:knows`, representa relaciones de co-solicitud o co-deudores. |
+
 ### Diagrama de Clases
-![[IA1_Clases.drawio.svg]]
+
+![IA1_Clases.drawio.svg](images/IA1_Clases.drawio.svg)
+
 ### Comparativa de Grafos (Antes vs Después del Razonador)
-la aplicación del razonamiento semántico ha permitido ampliar automáticamente el grafo RDF, generando nuevas afirmaciones que fortalecen la representación del conocimiento.
+
+La aplicación del razonamiento semántico ha permitido ampliar automáticamente el grafo RDF, generando nuevas afirmaciones que fortalecen la representación del conocimiento.
 La segunda imagen muestra el **grafo después del razonamiento**. En este caso, se han añadido automáticamente nuevas afirmaciones implícitas derivadas de las reglas semánticas. Estas inferencias enriquecen el conocimiento representado en el grafo.
+
 #### Antes:
+
 ![graph_before.png](images/graph_before.png)
+
 #### Después:
+
 ![graph_after.png](images/graph_after.png)
 
 ### Documentación de los Casos de Generación de Nuevo Conocimiento
@@ -173,6 +204,7 @@ Este documento presenta tres casos de inferencia de nuevo conocimiento aplicados
 ---
 
 #### Caso 1: Inferencia por Jerarquía de Clases
+
 Este caso se basa en la relación de **herencia entre clases**. Si una instancia pertenece a una subclase, entonces también pertenece a todas sus **superclases**.  
 Por ejemplo, si `Estudiante` es una subclase de `Persona`, entonces todo `Estudiante` es también una `Persona`.
 
@@ -203,6 +235,7 @@ Por ejemplo, si `Estudiante` es una subclase de `Persona`, entonces todo `Estudi
 ---
 
 #### Caso 2: Inferencia desde Dominio y Rango de Propiedades
+
 En este caso, el razonamiento se basa en el uso del **dominio y rango** de una propiedad. Si se indica que una propiedad (como `tieneCredito`) tiene un dominio y rango definidos, se puede inferir el tipo de las entidades involucradas, incluso si inicialmente no estaban especificadas.
 
 ##### Antes de la inferencia
@@ -226,6 +259,7 @@ En este caso, el razonamiento se basa en el uso del **dominio y rango** de una p
 ---
 
 #### Caso 3: Inferencia desde Relación `subPropertyOf`
+
 Este caso emplea la relación **`subPropertyOf`**. Si una propiedad (por ejemplo, `referido`) es una subpropiedad de otra (como `foaf:knows`), se puede inferir que toda relación con `referido` también es una relación con `foaf:knows`.
 
 ##### Antes de la inferencia
@@ -318,11 +352,11 @@ Este caso emplea la relación **`subPropertyOf`**. Si una propiedad (por ejemplo
 
 ---
 
-# Sistema Experta
+## Sistema Experta
 
-## Reglas Sistema Experta
+### Reglas Sistema Experto
 
-### Reglas Prioridad Alta - Rechazar Credito
+#### Reglas Prioridad Alta - Rechazar Credito
 
 - **Regla 1**: Si la persona es menor de edad (< 18 años), se rechaza el crédito.
 - **Regla 2**: Si la persona es mayor de 75 años, se rechaza el crédito.
@@ -332,14 +366,14 @@ Este caso emplea la relación **`subPropertyOf`**. Si una propiedad (por ejemplo
 - **Regla 6**: Si el monto solicitado supera a la capacidad de endeudamiento, se rechaza el crédito.
 - **Regla 7**: Si el plazo del crédito supera los 60 meses, se rechaza el crédito.
 
-### Reglas Prioridad Media - Aceptar Credito
+#### Reglas Prioridad Media - Aceptar Credito
 
 - **Regla 8**: Si el monto solicitado es menor o igual a 5 millones de pesos, se aprueba sin calcular interés.
 - **Regla 9**: Si el riesgo de impago es ≤ 0.4, se aprueba sin calcular interés.
 - **Regla 10**: Si el puntaje es ≥ 500, se aprueba sin calcular interés.
 - **Regla 11**: Si el ingreso mensual es mayor a 5 millones de pesos, se aprueba sin calcular interés.
 
-### Reglas de Asignación de Interés
+#### Reglas de Asignación de Interés
 
 - **Regla 12**: Si el crédito está aprobado y aún no tiene interés, se asigna un interés base según el riesgo y el puntaje.
 - **Regla 13**: Si riesgo < 0.3 y puntaje ≥ 800, se aplica un descuento de 2 puntos al interés.
@@ -348,19 +382,19 @@ Este caso emplea la relación **`subPropertyOf`**. Si una propiedad (por ejemplo
 - **Regla 16**: Si el monto solicitado es ≤ 5 millones de pesos, se descuenta 1.5 puntos por tratarse de microcrédito.
 - **Regla 17**: El interés se ajusta para que esté entre 5% y 20%.
 
-### Regla de Revisión Final
+#### Regla de Revisión Final
 
 - **Regla 18**: Si no se cumple ninguna regla anterior, el crédito queda en estado "revisar" con interés 0.0.
 
-## Explicación de los Hechos en el Sistema Experto
+### Explicación de los Hechos en el Sistema Experto
 
 A continuación se explican los hechos utilizados en el sistema experto para evaluación de créditos:
 
-### Hechos(FACT)
+#### Hechos(FACT)
 
 ---
 
-####  `PersonaFact`
+#####  `PersonaFact`
 
 Representa los datos personales del solicitante del crédito.
 
@@ -372,7 +406,7 @@ Representa los datos personales del solicitante del crédito.
 
 ---
 
-####  `IngresoFact`
+#####  `IngresoFact`
 
 Contiene información sobre los ingresos del solicitante.
 
@@ -382,7 +416,7 @@ Contiene información sobre los ingresos del solicitante.
 
 ---
 
-####  `HistorialFact`
+#####  `HistorialFact`
 
 Describe el historial financiero del solicitante.
 
@@ -393,7 +427,7 @@ Describe el historial financiero del solicitante.
 
 ---
 
-####  `CreditoFact`
+#####  `CreditoFact`
 
 Define la solicitud de crédito realizada por la persona.
 
@@ -403,7 +437,7 @@ Define la solicitud de crédito realizada por la persona.
 | `plazo`     | `int`          | Plazo en meses para devolver el crédito. |
 ---
 
-#### `ResultadoFact`
+##### `ResultadoFact`
 
 Resultado del análisis y procesamiento de la solicitud. También incluye indicadores internos para controlar la lógica del sistema.
 
